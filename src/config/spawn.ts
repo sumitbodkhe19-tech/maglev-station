@@ -10,7 +10,7 @@ export interface SpawnConfig {
 }
 
 export const playerSpawn: SpawnConfig = {
-  position: { x: 0, y: 0, z: 0 },
+  position: { x: 0, y: 0, z: 3.5 },
   facing: { x: 0, y: 0, z: -1 }, // facing -Z
   eyeHeight: 1.6,
 };

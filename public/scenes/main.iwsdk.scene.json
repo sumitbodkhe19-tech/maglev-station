@@ -14,23 +14,26 @@
       "sky": [0.25, 0.28, 0.45, 1],
       "equator": [0.75, 0.50, 0.40, 1],
       "ground": [0.15, 0.14, 0.18, 1],
-      "intensity": 0.35
+      "intensity": 0.45
     }
   },
   "environment": {
     "toneMapping": "aces",
-    "exposure": 1.25,
+    "exposure": 1.35,
     "shadows": true,
     "shadowMapType": "pcf"
   },
   "resources": {},
   "nodes": [
     {
-      "id": "street-plaza",
-      "name": "Street Plaza Ground & Buildings",
+      "id": "city-buildings",
+      "name": "High-Poly Modular City Buildings & Streets",
+      "transform": {
+        "position": [125, 0, 58]
+      },
       "content": {
         "type": "asset",
-        "asset": "street-plaza",
+        "asset": "city-buildings",
         "receiveShadow": true
       },
       "components": {
@@ -38,11 +41,14 @@
       }
     },
     {
-      "id": "station-entrance",
-      "name": "Station Entrance Canopy & Totem",
+      "id": "subway-entrance",
+      "name": "High-Poly Subway Entrance Canopy & Escalator",
+      "transform": {
+        "position": [0, 0, -6.5]
+      },
       "content": {
         "type": "asset",
-        "asset": "station-entrance",
+        "asset": "subway-entrance",
         "receiveShadow": true
       },
       "components": {
@@ -51,7 +57,7 @@
     },
     {
       "id": "stairwell-walkable",
-      "name": "Stairwell Walkable Ramps & Landings",
+      "name": "Walkable Ground and Ramp Colliders",
       "content": {
         "type": "asset",
         "asset": "stairwell-walkable"
@@ -61,31 +67,22 @@
       }
     },
     {
-      "id": "stairwell-visual",
-      "name": "Stairwell Steps, Walls, Lights & Concourse Sign",
-      "content": {
-        "type": "asset",
-        "asset": "stairwell-visual",
-        "receiveShadow": true
-      }
-    },
-    {
       "id": "key-light",
       "name": "Evening Key Light",
       "transform": {
-        "position": [-5, 10, 8],
-        "rotationDeg": [-35, -25, 0]
+        "position": [-15, 25, 15],
+        "rotationDeg": [-40, -30, 0]
       },
       "components": {
         "DirectionalLight": {
-          "color": [1.0, 0.88, 0.74, 1],
-          "intensity": 2.2,
+          "color": [1.0, 0.90, 0.78, 1],
+          "intensity": 2.5,
           "castShadow": true,
           "shadowMapSize": "2048",
-          "shadowCameraSize": 18,
+          "shadowCameraSize": 45,
           "shadowCameraNear": 1,
-          "shadowCameraFar": 35,
-          "shadowRadius": 5,
+          "shadowCameraFar": 75,
+          "shadowRadius": 4,
           "shadowBias": -0.0004,
           "shadowNormalBias": 0.02
         }
@@ -93,12 +90,12 @@
     },
     {
       "id": "fill-light",
-      "name": "Evening Fill Light",
+      "name": "Evening Sky Ambient Fill",
       "components": {
         "HemisphereLight": {
-          "skyColor": [0.45, 0.52, 0.75, 1],
-          "groundColor": [0.25, 0.22, 0.22, 1],
-          "intensity": 0.85
+          "skyColor": [0.55, 0.62, 0.85, 1],
+          "groundColor": [0.28, 0.25, 0.25, 1],
+          "intensity": 1.1
         }
       }
     }

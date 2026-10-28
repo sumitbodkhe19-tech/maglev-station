@@ -1,14 +1,20 @@
-import { defineAssets } from '@iwsdk/core';
-import { createStreetPlaza } from './scene-assets/street-plaza.scene-asset.js';
-import { createStationEntrance } from './scene-assets/station-entrance.scene-asset.js';
+import { defineAssets, AssetType } from '@iwsdk/core';
 import {
   createStairwellVisual,
   createStairwellWalkable,
 } from './scene-assets/stairwell.scene-asset.js';
 
 export default defineAssets({
-  'street-plaza': createStreetPlaza(),
-  'station-entrance': createStationEntrance(),
+  'subway-entrance': {
+    url: 'models/subway_entrance.glb',
+    type: AssetType.GLTF,
+    priority: 'critical',
+  },
+  'city-buildings': {
+    url: 'models/city_buildings.glb',
+    type: AssetType.GLTF,
+    priority: 'critical',
+  },
   'stairwell-walkable': createStairwellWalkable(),
   'stairwell-visual': createStairwellVisual(),
 });

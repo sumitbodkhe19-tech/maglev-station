@@ -102,37 +102,32 @@ export function createStairwellWalkable(): Group {
     depthWrite: false,
   });
 
-  // 1. Top Landing (y = 0.0, z = -7.5 to -8.5)
-  const topLandingCol = new Mesh(new BoxGeometry(4.4, 0.2, 1.2), colliderMat);
-  topLandingCol.name = 'Col_TopLanding';
-  topLandingCol.position.set(0, -0.1, -8.0);
-  root.add(topLandingCol);
+  // 0. Street Level Walkable Ground (around spawn [0, 0, 0] and plaza)
+  const streetGroundCol = new Mesh(new BoxGeometry(60, 0.2, 60), colliderMat);
+  streetGroundCol.name = 'Col_StreetGround';
+  streetGroundCol.position.set(0, -0.1, 10);
+  root.add(streetGroundCol);
 
-  // 2. Flight 1 Smooth Slope Ramp Collider (from y = 0.0 at z = -8.5 to y = -3.0 at z = -13.9)
-  const ramp1Col = new Mesh(new BoxGeometry(STEP_WIDTH, 0.1, FLIGHT_LENGTH), colliderMat);
-  ramp1Col.name = 'Col_RampFlight1';
-  ramp1Col.position.set(1.15, -1.5, (START_Z + END_Z) / 2);
-  ramp1Col.rotation.x = -FLIGHT_ANGLE;
-  root.add(ramp1Col);
+  // 1. Subway Entrance Front Steps Ramp (from y = 0.0 at z = -2.65 to y = 0.31 at z = -4.56)
+  const entranceStepsCol = new Mesh(new BoxGeometry(4.8, 0.1, 2.0), colliderMat);
+  entranceStepsCol.name = 'Col_EntranceSteps';
+  entranceStepsCol.position.set(0, 0.15, -3.6);
+  entranceStepsCol.rotation.x = 0.16; // ~9 degree slope up
+  root.add(entranceStepsCol);
 
-  // 3. Middle Landing (y = -3.0, z = -13.9 to -16.7, width 4.4m)
-  const midLandingCol = new Mesh(new BoxGeometry(4.4, 0.2, 2.8), colliderMat);
-  midLandingCol.name = 'Col_MidLanding';
-  midLandingCol.position.set(0, -3.1, (END_Z + LANDING_END_Z) / 2);
-  root.add(midLandingCol);
+  // 2. High-Poly Subway Escalator Smooth Ramp (from y = 0.31 at z = -4.56 to y = -4.72 at z = -12.97)
+  // Distance deltaZ = 8.41m, deltaY = 5.03m, ramp length = 9.8m
+  const escalatorRampCol = new Mesh(new BoxGeometry(4.0, 0.1, 9.85), colliderMat);
+  escalatorRampCol.name = 'Col_EscalatorRamp';
+  escalatorRampCol.position.set(0, -2.2, -8.76);
+  escalatorRampCol.rotation.x = -0.54; // ~31 degree slope down
+  root.add(escalatorRampCol);
 
-  // 4. Flight 2 Smooth Slope Ramp Collider (from y = -3.0 at z = -13.9 to y = -6.0 at z = -8.5)
-  const ramp2Col = new Mesh(new BoxGeometry(STEP_WIDTH, 0.1, FLIGHT_LENGTH), colliderMat);
-  ramp2Col.name = 'Col_RampFlight2';
-  ramp2Col.position.set(-1.15, -4.5, (START_Z + END_Z) / 2);
-  ramp2Col.rotation.x = FLIGHT_ANGLE;
-  root.add(ramp2Col);
-
-  // 5. Plain UG1 Landing Floor (10 m x 10 m at y = -6.0 m, in front of Flight 2 exit)
-  const ug1FloorCol = new Mesh(new BoxGeometry(10, 0.2, 10), colliderMat);
-  ug1FloorCol.name = 'Col_UG1LandingFloor';
-  ug1FloorCol.position.set(0, -6.1, -3.5);
-  root.add(ug1FloorCol);
+  // 3. Underground Concourse Landing Floor (y = -4.72, z = -12.97 to -18.5)
+  const ugConcourseCol = new Mesh(new BoxGeometry(8.0, 0.2, 6.0), colliderMat);
+  ugConcourseCol.name = 'Col_UGConcourseFloor';
+  ugConcourseCol.position.set(0, -4.82, -15.5);
+  root.add(ugConcourseCol);
 
   // 6. Wall Colliders to prevent walking through walls or falling into the void
   // East wall (keeps player inside Flight 1 and middle landing)

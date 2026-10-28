@@ -11,23 +11,23 @@ export interface TeleportHotKey {
 export const TELEPORT_HOTKEYS: Record<string, TeleportHotKey> = {
   '1': {
     key: '1',
-    name: 'Street Spawn',
-    position: [0, 0, 0],
+    name: 'Street Plaza',
+    position: [0, 0, 3.5],
   },
   '2': {
     key: '2',
-    name: 'Top of Stairs',
-    position: [1.15, 0, -8.6],
+    name: 'Metro Canopy',
+    position: [0, 0.35, -4.5],
   },
   '3': {
     key: '3',
-    name: 'UG1 Landing',
-    position: [-1.15, -6.0, -6.0],
+    name: 'Escalator Midway',
+    position: [0, -2.2, -8.8],
   },
   '4': {
     key: '4',
-    name: 'UG1 Concourse Centre',
-    position: [0, -6, -28],
+    name: 'UG Station Landing',
+    position: [0, -4.72, -15.0],
   },
   '5': {
     key: '5',
