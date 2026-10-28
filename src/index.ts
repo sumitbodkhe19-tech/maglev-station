@@ -45,6 +45,11 @@ World.create(
     world.setAuthoredPlayerPosition(spawnPos);
   }
 
+  // Desktop mouse-look: turns the player's head and view when moving or dragging the mouse
+  const { MouseLook } = await import('./dev/mouse-look.js');
+  new MouseLook(world);
+  console.log('Desktop mouse look active');
+
   // Developer-only tools: Debug Overlay & Teleport Hotkeys
   // Disabled in production builds
   if (import.meta.env.DEV) {
