@@ -27,18 +27,19 @@
         "position": [
           0,
           1.6,
-          1
+          0
         ],
         "lookAt": [
           0,
-          0.95,
-          -1.95
+          1.6,
+          -1
         ]
       }
     },
     "features": {
       "locomotion": {
-        "useWorker": true
+        "useWorker": true,
+        "browserControls": true
       },
       "grabbing": true,
       "physics": false,

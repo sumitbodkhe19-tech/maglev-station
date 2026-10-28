@@ -46,35 +46,64 @@ npm run preview
 
 ---
 
-## How to Open and Use the Page
+## Desktop Controls
 
-1. Run `npm run dev` in your terminal. Note the printed HTTPS address (for example: `https://localhost:5173/`).
-2. Open that URL in your browser.
-3. You will see:
-   - A large plain floor the player can stand on.
-   - Atmospheric sky gradient and lighting.
-   - The **Enter XR** button in the top/overlay bar provided by the IWER emulator.
-4. Click **Enter XR**. The IWER emulator initializes and displays its device toolbar.
-5. In the emulator toolbar, click the **Play mode** button (circle with play icon) to lock mouse look.
+After clicking **Enter XR** (at the top center) and entering **Play mode** (the play icon on the emulator toolbar), you can navigate the station using keyboard and mouse. These inputs emulate Quest 3 Touch Plus controllers and work identically on a physical headset.
 
-### Desktop Emulator Controls
+### Locomotion & Interaction
 
-| Input | Action |
-| --- | --- |
-| **W, A, S, D** | Walk forward, left, backward, right (left thumbstick) |
-| **Mouse** (in Play mode) | Look around |
-| **Arrow keys** | Turn / right thumbstick |
-| **Left Click** | Trigger / select (right controller) |
-| **Right Click** | Grip / grab (right controller) |
-| **Q / E** | Left controller trigger / grip |
-| **Esc** | Exit Play mode (unlock mouse) |
+| Input | Controller Mapping | Action |
+| --- | --- | --- |
+| **W** | Left Thumbstick Up | Walk forward (~2.0 m/s) |
+| **S** | Left Thumbstick Down | Walk backward (~2.0 m/s) |
+| **A** | Left Thumbstick Left | Strafe left |
+| **D** | Left Thumbstick Right | Strafe right |
+| **Mouse Move** (Play mode) | Headset Gaze / Look | Look around in 360 degrees |
+| **Arrow Left / Right** | Right Thumbstick X | 45° Snap turn left / right |
+| **Left Mouse Button (LMB)** | Right Trigger | Primary trigger / select / interact |
+| **Right Mouse Button (RMB)** | Right Grip / Squeeze | Grip / grab objects |
+| **Q** | Left Trigger | Secondary select / trigger |
+| **E** | Left Grip | Secondary grip / grab |
+| **Esc** | N/A | Release mouse pointer / exit Play mode |
+
+---
+
+## Developer Teleport Hotkeys (Dev-Only)
+
+In development builds (`npm run dev`), number keys **1 through 6** provide instant teleport shortcuts to jump across the station. These are disabled in production builds:
+
+| Key | Destination Zone | Planned Coordinates (x, y, z) |
+| --- | --- | --- |
+| **1** | Street Spawn (Plaza) | `(0, 0, 0)` |
+| **2** | Top of the Stairs (Station Entrance) | `(0, 0, -8)` |
+| **3** | UG1 Landing (Stairwell Bottom) | `(0, -6, -14)` |
+| **4** | UG1 Concourse Centre (Ticket Hall) | `(0, -6, -28)` |
+| **5** | UG2 Platform (Maglev Trackside) | `(0, -12, -45)` |
+| **6** | Inside the Maglev Train (Cabin) | `(0, -12, -60)` |
+
+### Developer Debug HUD
+
+A lightweight, high-performance debug HUD is displayed in the top-left corner:
+- **FPS**: Current rendering frame rate.
+- **Pos**: Real-time player coordinates `(x, y, z)`.
+- **Area**: Current station zone name resolved dynamically from bounding boxes in `src/config/areas.ts`.
+- **Cheat Sheet**: Quick reference for the `1` - `6` teleport hotkeys.
 
 ---
 
 ## Project Structure
 
-- `iwsdk.config.json`: Framework and XR configuration.
-- `src/index.ts`: Application entry point initializing the World.
+- `iwsdk.config.json`: Framework, camera, and XR configuration.
+- `src/index.ts`: Application entry point initializing the World and locomotion.
+- `src/config/`:
+  - `spawn.ts`: Player spawn coordinate and facing direction.
+  - `locomotion.ts`: Locomotion speeds, snap turn angle, and comfort settings.
+  - `areas.ts`: Station zone bounding boxes and area resolution.
+  - `teleport.ts`: Developer teleport hotkey definitions.
+- `src/dev/`:
+  - `debug-overlay.ts`: Dev-only HUD showing FPS, position, and current area.
+  - `hotkeys.ts`: Dev-only keyboard listener for keys 1 to 6.
+- `src/scene-assets/`: Procedural 3D assets (floor, test cubes, temporary test platforms).
 - `public/scenes/main.iwsdk.scene.json`: Scene definition (lighting, environment, floor).
-- `HOW_THIS_PROJECT_WORKS.md`: Detailed explanation of the architecture and world coordinate conventions.
+- `HOW_THIS_PROJECT_WORKS.md`: Detailed explanation of architecture, `LocomotionEnvironment`, and world coordinate conventions.
 - `PROJECT_BRIEF.md`: Comprehensive project roadmap and design specifications.

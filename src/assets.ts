@@ -7,7 +7,9 @@
 
 import { defineAssets } from '@iwsdk/core';
 import { createStudioFloor } from './scene-assets/studio.scene-asset.js';
+import { createTestCubes } from './scene-assets/test-cubes.scene-asset.js';
 
 export default defineAssets({
   'studio-floor': createStudioFloor(),
+  'test-cubes': createTestCubes(),
 });

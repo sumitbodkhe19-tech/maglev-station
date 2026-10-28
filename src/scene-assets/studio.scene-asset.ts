@@ -66,7 +66,7 @@ function createLatticeTexture(size = 512): DataTexture {
 /**
  * Large plain floor with faint lattice for the player to stand on.
  */
-export function createStudioFloor(size = 36): Group {
+export function createStudioFloor(size = 120): Group {
   const lattice = createLatticeTexture();
   lattice.wrapS = lattice.wrapT = RepeatWrapping;
   lattice.repeat.set(size / (0.6 * 2), size / (0.6 * 3.2));

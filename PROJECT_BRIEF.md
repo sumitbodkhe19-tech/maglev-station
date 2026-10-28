@@ -252,7 +252,7 @@ These are removed or disabled in production builds, and can be re-enabled on the
 Tick a box only when the stage runs without console errors and the agent has tested it. Update this list after each task.
 
 - [x] **1. Setup:** IWSDK project (VR, TypeScript, locomotion + grabbing), runs on localhost, docs files written
-- [ ] **2. Walking:** locomotion, spawn config, desktop controls, debug overlay, teleport hotkeys, test cubes
+- [x] **2. Walking:** locomotion, spawn config, desktop controls, debug overlay, teleport hotkeys, test cubes
 - [ ] **3. Street + stairs:** plaza, entrance, switchback stairs to UG1, areas config
 - [ ] **4. UG1 hall:** shell, all zones marked, decorations, signs, departure board, performance check
 - [ ] **5. NPC + dialogue system + Officer Sam:** data-driven dialogue, spatial panels, game flags, Learning Journal counter
@@ -275,6 +275,16 @@ Tick a box only when the stage runs without console errors and the agent has tes
   - Starter demo objects (robot, plants, demo plinths, stage, sideboard, gallery, welcome panel) removed while keeping the large plain floor (`studio-floor` with `LocomotionEnvironment`), sky gradients (`DomeGradient`, `IBLGradient`), and basic lighting (`key-light`, `fill-light`).
   - `HOW_THIS_PROJECT_WORKS.md` and `README.md` written and updated with coordinate conventions and exact run commands.
   - Development server runs on `https://localhost:8081/` with 0 console errors and IWER emulator tested and working.
+
+- **Stage 2 (Walking & Test Shortcuts) completed**:
+  - Config files created: `src/config/spawn.ts` (spawn at `[0, 0, 0]` facing `-Z`), `src/config/locomotion.ts` (sliding speed 2.0 m/s, snap turn 45°, teleport enabled), `src/config/areas.ts` (station zone bounding boxes), `src/config/teleport.ts` (keys 1-6 planned station coordinates).
+  - Built-in `LocomotionSystem` configured and active.
+  - Large walkable floor with `LocomotionEnvironment` registered and verified.
+  - 8 colorful test cubes positioned along the corridor plus preview landing pads with distinct color pillars for all 6 teleport zones.
+  - Dev-only debug HUD (`src/dev/debug-overlay.ts`) displaying real-time FPS (solid 60 fps), Player Pos `(x, y, z)`, and current station zone name.
+  - Dev-only teleport shortcuts (`src/dev/hotkeys.ts`) on number keys 1-6 verified and working without clashing with emulator keys.
+  - Stripped entirely from production builds (`import.meta.env.DEV` dynamic imports).
+  - Verified in browser with screenshots, keypress interactions, and zero console errors.
 
 ---
 

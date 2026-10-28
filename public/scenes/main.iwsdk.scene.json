@@ -39,6 +39,20 @@
       }
     },
     {
+      "id": "test-cubes",
+      "name": "Test Movement Cubes",
+      "content": {
+        "type": "asset",
+        "asset": "test-cubes"
+      },
+      "components": {
+        "LocomotionEnvironment": {}
+      },
+      "transform": {
+        "position": [0, 0, 0]
+      }
+    },
+    {
       "id": "key-light",
       "name": "Key Light",
       "transform": {
