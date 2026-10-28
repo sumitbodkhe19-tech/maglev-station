@@ -1,15 +1,14 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import { defineAssets } from '@iwsdk/core';
-import { createStudioFloor } from './scene-assets/studio.scene-asset.js';
-import { createTestCubes } from './scene-assets/test-cubes.scene-asset.js';
+import { createStreetPlaza } from './scene-assets/street-plaza.scene-asset.js';
+import { createStationEntrance } from './scene-assets/station-entrance.scene-asset.js';
+import {
+  createStairwellVisual,
+  createStairwellWalkable,
+} from './scene-assets/stairwell.scene-asset.js';
 
 export default defineAssets({
-  'studio-floor': createStudioFloor(),
-  'test-cubes': createTestCubes(),
+  'street-plaza': createStreetPlaza(),
+  'station-entrance': createStationEntrance(),
+  'stairwell-walkable': createStairwellWalkable(),
+  'stairwell-visual': createStairwellVisual(),
 });

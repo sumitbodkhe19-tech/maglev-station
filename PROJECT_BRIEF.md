@@ -253,7 +253,7 @@ Tick a box only when the stage runs without console errors and the agent has tes
 
 - [x] **1. Setup:** IWSDK project (VR, TypeScript, locomotion + grabbing), runs on localhost, docs files written
 - [x] **2. Walking:** locomotion, spawn config, desktop controls, debug overlay, teleport hotkeys, test cubes
-- [ ] **3. Street + stairs:** plaza, entrance, switchback stairs to UG1, areas config
+- [x] **3. Street + stairs:** plaza, entrance, switchback stairs to UG1, areas config
 - [ ] **4. UG1 hall:** shell, all zones marked, decorations, signs, departure board, performance check
 - [ ] **5. NPC + dialogue system + Officer Sam:** data-driven dialogue, spatial panels, game flags, Learning Journal counter
 - [ ] **6A. Help desk, ticket counter, 4 passengers:** hints from flags, booking flow with grabbable ticket, facts file
@@ -285,6 +285,18 @@ Tick a box only when the stage runs without console errors and the agent has tes
   - Dev-only teleport shortcuts (`src/dev/hotkeys.ts`) on number keys 1-6 verified and working without clashing with emulator keys.
   - Stripped entirely from production builds (`import.meta.env.DEV` dynamic imports).
   - Verified in browser with screenshots, keypress interactions, and zero console errors.
+
+- **Stage 3 (Street Entrance & Staircase Down) completed**:
+  - Street-level plaza (~30 m x 30 m at `y = 0`) built with paved ground, perimeter road with curbs, modern street lamps, park benches, low-poly trees in planters, and stylized city buildings matching user reference images.
+  - Early-evening dusk sky with warm peach horizon and twilight zenith via `DomeGradient` and `IBLGradient`.
+  - Station entrance building with arched glass/steel canopy, glowing cyan "MAGLEV CENTRAL" sign, and subway-style yellow totem pylon.
+  - Switchback staircase going down to UG1 at `y = -6 m` with middle landing at `y = -3 m` (36 steps total, 0.1667 m rise, 0.30 m run), dual stainless steel handrails, subway tile walls, and overhead lighting.
+  - Clean separation of walkable geometry (`stairwell-walkable`) and visual geometry (`stairwell-visual`). Smooth sloped ramp colliders ensure 100% stutter-free continuous locomotion walking down AND back up.
+  - Full enclosing wall colliders along stairs, divider, and landing room to prevent walking through walls or seeing through geometry.
+  - 10 m x 10 m plain UG1 Landing floor at `y = -6 m` in front of stair exit with prominent self-illuminated "UG1 - CONCOURSE" sign and green "▲ STREET EXIT" directional sign.
+  - `src/config/areas.ts` updated with exact bounds: `Street`, `Stairwell`, and `UG1 Landing`. Debug HUD dynamically displays the active area name.
+  - `src/config/teleport.ts` updated with real coordinates for hotkeys 1 (Street `[0, 0, 0]`), 2 (Stairs `[1.15, 0, -8.6]`), and 3 (UG1 Landing `[-1.15, -6.0, -6.0]`).
+  - Self-tested and verified with automated browser locomotion: spawned at street, walked down 36 steps to UG1 landing, verified HUD area changes, and walked all the way back up to street plaza at solid 60 FPS.
 
 ---
 

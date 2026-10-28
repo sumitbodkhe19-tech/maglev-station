@@ -6,7 +6,7 @@ export interface TeleportHotKey {
 
 /**
  * Developer teleport shortcut targets (Keys 1 to 6).
- * Future areas use their planned coordinates from PROJECT_BRIEF.md.
+ * Real coordinates for Street Spawn (1), Top of Stairs (2), and UG1 Landing (3).
  */
 export const TELEPORT_HOTKEYS: Record<string, TeleportHotKey> = {
   '1': {
@@ -17,12 +17,12 @@ export const TELEPORT_HOTKEYS: Record<string, TeleportHotKey> = {
   '2': {
     key: '2',
     name: 'Top of Stairs',
-    position: [0, 0, -8],
+    position: [1.15, 0, -8.6],
   },
   '3': {
     key: '3',
     name: 'UG1 Landing',
-    position: [0, -6, -14],
+    position: [-1.15, -6.0, -6.0],
   },
   '4': {
     key: '4',

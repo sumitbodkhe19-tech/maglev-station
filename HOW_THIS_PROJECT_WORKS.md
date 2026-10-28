@@ -55,10 +55,10 @@ All tunable parameters and coordinates are centralized in `src/config/`:
 
 | File | Purpose | Key Values |
 | --- | --- | --- |
-| `src/config/spawn.ts` | Player spawn point and look direction | `position: [0, 0, 0]`, facing `-Z` (`[0, 0, -1]`), eye height `1.6` m |
+| `src/config/spawn.ts` | Player spawn point and look direction | `position: [0, 0, 0]`, facing `-Z` (`[0, 0, -1]`), eye height `1.6` m (~8m in front of entrance) |
 | `src/config/locomotion.ts` | Locomotion speeds and turning modes | `slidingSpeed: 2.0` m/s, `turningMethod: SnapTurn`, `turningAngle: 45`°, `teleportEnabled: true` |
-| `src/config/areas.ts` | Bounding boxes for each station zone | `Street Plaza`, `Entrance`, `Switchback Stairs`, `UG1 Landing`, `UG1 Concourse`, `Fun Corner`, `UG2 Platform`, `Inside Maglev Train` |
-| `src/config/teleport.ts` | Developer number-key jump shortcuts | Keys `1` to `6` mapped to planned station coordinates |
+| `src/config/areas.ts` | Bounding boxes for each station zone | `Street`, `Stairwell`, `UG1 Landing`, and future planned concourse/platform zones |
+| `src/config/teleport.ts` | Developer number-key jump shortcuts | Keys `1` to `6` mapped to real station coordinates |
 
 ---
 
@@ -68,14 +68,14 @@ To accelerate testing across all stages, two developer aids are included. Both a
 
 1. **Debug HUD Overlay (`src/dev/debug-overlay.ts`)**:
    - Fixed in the top-left corner with a dark glassmorphic UI.
-   - Displays real-time **FPS**, exact **player coordinates (x, y, z)**, and the **current station zone name** resolved from `src/config/areas.ts`.
+   - Displays real-time **FPS**, exact **player coordinates (x, y, z)**, and the **current station zone name** resolved dynamically from `src/config/areas.ts`.
    - Displays a cheat sheet for number-key teleports.
 
 2. **Teleport Hotkeys (`src/dev/hotkeys.ts`)**:
    - Keys **1 to 6** instantly teleport the player to any zone:
      - `1`: Street Spawn `(0, 0, 0)`
-     - `2`: Top of Stairs `(0, 0, -8)`
-     - `3`: UG1 Landing `(0, -6, -14)`
+     - `2`: Top of Stairs `(1.15, 0, -8.6)`
+     - `3`: UG1 Landing `(-1.15, -6.0, -6.0)`
      - `4`: UG1 Concourse Centre `(0, -6, -28)`
      - `5`: UG2 Platform `(0, -12, -45)`
      - `6`: Inside Maglev Train `(0, -12, -60)`
@@ -83,7 +83,28 @@ To accelerate testing across all stages, two developer aids are included. Both a
 
 ---
 
-## 5. Core Project Files
+## 5. Stage 3 Level Architecture: Street, Entrance & Switchback Staircase
+
+### Clean Separation of Walkable vs Visual Geometry
+In IWSDK, any mesh contained in an entity with `LocomotionEnvironment: {}` is converted to environment BVH geometry. Registering detailed step nosings, ceilings, or decorative turnstiles causes the locomotor capsule to stutter, snag, or step onto ceilings.
+
+We use a two-entity architecture for complex vertical spaces:
+1. **`stairwell-walkable`** (`LocomotionEnvironment: {}`):
+   - **Smooth slope ramps**: Invisible box wedges sloped under Flight 1 (y: 0 to -3m) and Flight 2 (y: -3 to -6m). Guarantees 100% stutter-free continuous walking down AND up.
+   - **Landing slabs**: Flat colliders for Top Landing (y = 0.0), Middle Landing (y = -3.0), and UG1 Landing (y = -6.0).
+   - **Enclosing wall colliders**: Invisible vertical boxes along outer walls, center divider, and UG1 room walls to completely prevent players from walking through walls or drifting into the void.
+2. **`stairwell-visual`** (Visual Only):
+   - 36 stone steps with high-visibility yellow nosing stripes.
+   - Dual stainless steel handrails on both sides of every flight.
+   - Subway tile walls, recessed ceiling LED troffer lights.
+   - Prominent self-illuminated cyan **"UG1 - CONCOURSE"** sign and green **"▲ STREET EXIT"** wayfinding sign.
+
+### Plaza Ground Cutout
+To allow downward descent into the underground station without falling through the surrounding world, the street plaza floor at `y = 0` is split into four perimeter slabs surrounding the stairwell shaft opening (`x = [-2.8, 2.8], z = [-17.5, -6.5]`).
+
+---
+
+## 6. Core Project Files
 
 ### `iwsdk.config.json`
 The central project authority file. It defines:
@@ -96,28 +117,22 @@ The central project authority file. It defines:
   - `features`: Locomotion (`locomotion: { useWorker: true, browserControls: true }`), grabbing (`grabbing: true`), physics, and horizon UI kit.
   - `dev.emulator`: Default emulated hardware for browser development (`metaQuest3`).
 
-### `src/index.ts`
-The application's TypeScript entry point.
-- Finds `#scene-container` DOM element.
-- Boots `World.create()`.
-- Pulls `LocomotionSystem` and applies `locomotionConfig` (`slidingSpeed = 2.0`, `turningMethod = SnapTurn`, `turningAngle = 45°`).
-- Positions player at `playerSpawn` (`[0, 0, 0]` facing `-Z`).
-- Dynamically imports and mounts `DebugOverlay` and `DevHotkeys` in development mode.
-
 ### `public/scenes/main.iwsdk.scene.json`
 The declarative 3D scene file loaded by IWSDK's `LevelSystem`:
 - **Components**:
-  - `DomeGradient`: Atmospheric sky dome colors.
-  - `IBLGradient`: Image-based ambient fill.
+  - `DomeGradient`: Early-evening dusk sky gradient (warm peach horizon `[0.92, 0.52, 0.35]` to twilight zenith `[0.10, 0.12, 0.28]`).
+  - `IBLGradient`: Ambient fill gradient matched to dusk tones.
 - **Nodes**:
-  - `studio-floor`: Walkable surface with `LocomotionEnvironment: {}`.
-  - `test-cubes`: Walkable test cubes and underground landing pads with `LocomotionEnvironment: {}`.
-  - `key-light`: Directional shadow-casting sunlight.
+  - `street-plaza`: 30m x 30m plaza ground, city buildings, benches, lamp posts, trees (`LocomotionEnvironment: {}`).
+  - `station-entrance`: Arched canopy, steps, glowing "MAGLEV CENTRAL" sign, station totem pylon (`LocomotionEnvironment: {}`).
+  - `stairwell-walkable`: Slope ramps, landing colliders, wall colliders (`LocomotionEnvironment: {}`).
+  - `stairwell-visual`: Steps, handrails, walls, ceilings, lights, signs (visual-only).
+  - `key-light`: Directional warm sunlight at 12° elevation.
   - `fill-light`: Hemisphere ambient fill light.
 
 ---
 
-## 6. Direction and Coordinate Conventions
+## 7. Direction and Coordinate Conventions
 
 These conventions are fixed and must never be altered in later stages:
 
@@ -131,7 +146,7 @@ These conventions are fixed and must never be altered in later stages:
 | **-X** | West | Left-hand side of concourse |
 
 ### Station Floor Heights:
-- **Street Plaza**: `y = 0` m (spawn point ~8 m in front of entrance facing South `+Z`).
-- **Stairwell**: descent from `y = 0` to `y = -6` m.
+- **Street Plaza**: `y = 0` m (spawn point ~8 m in front of entrance facing North `-Z`).
+- **Stairwell**: descent from `y = 0` to `y = -6` m via switchback staircase.
 - **UG1 Concourse**: `y = -6` m (Security checkpoint, Ticket counters on West `-X`, Help desk on West `-X`, Restrooms on East `+X`, Fun Corner on South-East `+X/+Z`, Ticket gates on South `+Z`).
 - **UG2 Platform Hall**: `y = -12` m (Platform and vacuum-tube guideway).

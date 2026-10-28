@@ -5,49 +5,43 @@ export interface AreaBox {
 }
 
 /**
- * Named bounding boxes for station zones (Section 6 of PROJECT_BRIEF.md).
- * Coordinates: +Y up, -Z north/forward, +Z south, +X east, -X west.
+ * Named bounding boxes for station zones (Prompt 3 & Section 6 of PROJECT_BRIEF.md).
+ * Coordinates: +Y up, -Z north (entrance & underground), +Z south (plaza road), +X east, -X west.
  */
 export const AREAS: AreaBox[] = [
+  // 1. UG1 Landing: 10m x 10m floor hall at y = -6m (z = -8.5 to +1.5)
   {
-    name: 'Street Plaza',
-    min: [-20, -1, -5],
-    max: [20, 3, 20],
+    name: 'UG1 Landing',
+    min: [-5.5, -6.6, -9.0],
+    max: [5.5, -5.7, 2.0],
   },
+  // 2. Stairwell: 36-step switchback staircase & middle landing
   {
-    name: 'Entrance / Top of Stairs',
-    min: [-10, -2, -12],
-    max: [10, 2, -5],
+    name: 'Stairwell',
+    min: [-2.6, -5.7, -17.8],
+    max: [2.6, 0.5, -7.0],
   },
+  // 3. Street: 30m x 30m street plaza & entrance porch at y = 0
   {
-    name: 'Switchback Stairs',
-    min: [-8, -6.5, -18],
-    max: [8, -0.5, -10],
+    name: 'Street',
+    min: [-16.0, -0.6, -7.0],
+    max: [16.0, 6.0, 18.0],
   },
-  {
-    name: 'UG1 - Stairs Landing',
-    min: [-10, -7.5, -20],
-    max: [10, -4.5, -12],
-  },
+  // Future planned areas for subsequent tasks
   {
     name: 'UG1 - Concourse Hall',
-    min: [-25, -7.5, -45],
-    max: [25, -4.5, -18],
-  },
-  {
-    name: 'UG1 - Fun Corner',
-    min: [5, -7.5, -45],
-    max: [20, -4.5, -30],
-  },
-  {
-    name: 'UG2 - Inside Maglev Train',
-    min: [-10, -13.5, -80],
-    max: [10, -10.5, -55],
+    min: [-25.0, -7.5, -45.0],
+    max: [25.0, -5.7, -19.5],
   },
   {
     name: 'UG2 - Platform',
-    min: [-20, -13.5, -55],
-    max: [20, -10.5, -40],
+    min: [-20.0, -13.5, -55.0],
+    max: [20.0, -9.5, -40.0],
+  },
+  {
+    name: 'UG2 - Inside Maglev Train',
+    min: [-10.0, -13.5, -80.0],
+    max: [10.0, -9.5, -55.0],
   },
 ];
 
@@ -69,11 +63,13 @@ export function getAreaName(pos: { x: number; y: number; z: number }): string {
   }
 
   // Fallback by floor height if outside specific bounding box
-  if (pos.y >= -2) {
-    return 'Street Level';
-  } else if (pos.y >= -8) {
-    return 'UG1 Concourse';
+  if (pos.y >= -0.5) {
+    return 'Street';
+  } else if (pos.y >= -5.7 && pos.z <= -7.0 && pos.z >= -18.0) {
+    return 'Stairwell';
+  } else if (pos.y >= -7.0) {
+    return 'UG1 Landing';
   } else {
-    return 'UG2 Platform Level';
+    return 'UG2 Platform';
   }
 }

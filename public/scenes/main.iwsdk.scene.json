@@ -3,35 +3,34 @@
   "units": "meters",
   "components": {
     "com.iwsdk.components.DomeGradient": {
-      "sky": [0.843, 0.796, 0.882, 1],
-      "equator": [0.808, 0.855, 0.91, 1],
-      "ground": [0.902, 0.855, 0.82, 1],
-      "elevationDeg": 24,
-      "azimuthDeg": -31,
+      "sky": [0.10, 0.12, 0.28, 1],
+      "equator": [0.92, 0.52, 0.35, 1],
+      "ground": [0.18, 0.16, 0.18, 1],
+      "elevationDeg": 12,
+      "azimuthDeg": -45,
       "dither": true
     },
     "com.iwsdk.components.IBLGradient": {
-      "sky": [0.72, 0.7, 0.8, 1],
-      "equator": [0.78, 0.78, 0.84, 1],
-      "ground": [0.5, 0.52, 0.58, 1],
-      "intensity": 0.2025
+      "sky": [0.25, 0.28, 0.45, 1],
+      "equator": [0.75, 0.50, 0.40, 1],
+      "ground": [0.15, 0.14, 0.18, 1],
+      "intensity": 0.35
     }
   },
   "environment": {
     "toneMapping": "aces",
-    "exposure": 1.2,
+    "exposure": 1.25,
     "shadows": true,
     "shadowMapType": "pcf"
   },
   "resources": {},
   "nodes": [
     {
-      "id": "studio-floor",
-      "name": "Studio Floor",
-      "framingRole": "support",
+      "id": "street-plaza",
+      "name": "Street Plaza Ground & Buildings",
       "content": {
         "type": "asset",
-        "asset": "studio-floor",
+        "asset": "street-plaza",
         "receiveShadow": true
       },
       "components": {
@@ -39,36 +38,54 @@
       }
     },
     {
-      "id": "test-cubes",
-      "name": "Test Movement Cubes",
+      "id": "station-entrance",
+      "name": "Station Entrance Canopy & Totem",
       "content": {
         "type": "asset",
-        "asset": "test-cubes"
+        "asset": "station-entrance",
+        "receiveShadow": true
       },
       "components": {
         "LocomotionEnvironment": {}
+      }
+    },
+    {
+      "id": "stairwell-walkable",
+      "name": "Stairwell Walkable Ramps & Landings",
+      "content": {
+        "type": "asset",
+        "asset": "stairwell-walkable"
       },
-      "transform": {
-        "position": [0, 0, 0]
+      "components": {
+        "LocomotionEnvironment": {}
+      }
+    },
+    {
+      "id": "stairwell-visual",
+      "name": "Stairwell Steps, Walls, Lights & Concourse Sign",
+      "content": {
+        "type": "asset",
+        "asset": "stairwell-visual",
+        "receiveShadow": true
       }
     },
     {
       "id": "key-light",
-      "name": "Key Light",
+      "name": "Evening Key Light",
       "transform": {
-        "position": [-2.3541, 11.2763, 1.762],
-        "rotationDeg": [-73.3982, -11.3134, 0]
+        "position": [-5, 10, 8],
+        "rotationDeg": [-35, -25, 0]
       },
       "components": {
         "DirectionalLight": {
-          "color": [1, 0.945, 0.87, 1],
-          "intensity": 2.3,
+          "color": [1.0, 0.88, 0.74, 1],
+          "intensity": 2.2,
           "castShadow": true,
           "shadowMapSize": "2048",
-          "shadowCameraSize": 8,
-          "shadowCameraNear": 2,
-          "shadowCameraFar": 24,
-          "shadowRadius": 7,
+          "shadowCameraSize": 18,
+          "shadowCameraNear": 1,
+          "shadowCameraFar": 35,
+          "shadowRadius": 5,
           "shadowBias": -0.0004,
           "shadowNormalBias": 0.02
         }
@@ -76,12 +93,12 @@
     },
     {
       "id": "fill-light",
-      "name": "Fill Light",
+      "name": "Evening Fill Light",
       "components": {
         "HemisphereLight": {
-          "skyColor": [0.78, 0.83, 0.96, 1],
-          "groundColor": [0.592, 0.608, 0.651, 1],
-          "intensity": 1.15
+          "skyColor": [0.45, 0.52, 0.75, 1],
+          "groundColor": [0.25, 0.22, 0.22, 1],
+          "intensity": 0.85
         }
       }
     }

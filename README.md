@@ -72,11 +72,11 @@ After clicking **Enter XR** (at the top center) and entering **Play mode** (the 
 
 In development builds (`npm run dev`), number keys **1 through 6** provide instant teleport shortcuts to jump across the station. These are disabled in production builds:
 
-| Key | Destination Zone | Planned Coordinates (x, y, z) |
+| Key | Destination Zone | Real Coordinates (x, y, z) |
 | --- | --- | --- |
 | **1** | Street Spawn (Plaza) | `(0, 0, 0)` |
-| **2** | Top of the Stairs (Station Entrance) | `(0, 0, -8)` |
-| **3** | UG1 Landing (Stairwell Bottom) | `(0, -6, -14)` |
+| **2** | Top of the Stairs (Station Entrance) | `(1.15, 0, -8.6)` |
+| **3** | UG1 Landing (Stairwell Bottom) | `(-1.15, -6.0, -6.0)` |
 | **4** | UG1 Concourse Centre (Ticket Hall) | `(0, -6, -28)` |
 | **5** | UG2 Platform (Maglev Trackside) | `(0, -12, -45)` |
 | **6** | Inside the Maglev Train (Cabin) | `(0, -12, -60)` |
