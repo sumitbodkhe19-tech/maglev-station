@@ -43,3 +43,6 @@ pids/
 .cursor/mcp.json
 .vscode/mcp.json
 .codex/config.toml
+
+# Raw uncompressed scene models (optimized copies are tracked in public/models)
+src/scene-assets/*.glb
