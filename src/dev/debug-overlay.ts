@@ -1,11 +1,13 @@
 import { Vector3, World } from '@iwsdk/core';
 import { getAreaName } from '../config/areas.js';
+import type { PlayerMovementController } from '../locomotion/movement-controller.js';
 
 export class DebugOverlay {
   private element: HTMLDivElement | null = null;
   private fpsSpan: HTMLElement | null = null;
   private posSpan: HTMLElement | null = null;
   private areaSpan: HTMLElement | null = null;
+  private speedSpan: HTMLElement | null = null;
 
   private frameCount = 0;
   private lastFpsUpdate = performance.now();
@@ -13,7 +15,10 @@ export class DebugOverlay {
   private tempVec = new Vector3();
   private animId: number | null = null;
 
-  constructor(private world: World) {
+  constructor(
+    private world: World,
+    private movementController?: PlayerMovementController,
+  ) {
     this.createDom();
     this.startLoop();
   }
@@ -49,7 +54,9 @@ export class DebugOverlay {
       <div>FPS: <span id="debug-fps" style="color: #4ade80; font-weight: 600;">60</span></div>
       <div>Pos: <span id="debug-pos" style="color: #fbbf24; font-weight: 600;">0.00, 0.00, 0.00</span></div>
       <div>Area: <span id="debug-area" style="color: #a78bfa; font-weight: 600;">Street Plaza</span></div>
+      <div>Speed: <span id="debug-speed" style="color: #38bdf8; font-weight: 600;">0.00 m/s [Idle]</span></div>
       <div style="margin-top: 6px; padding-top: 4px; border-top: 1px solid rgba(148, 163, 184, 0.2); font-size: 11px; color: #94a3b8;">
+        Controls: <span style="color:#e2e8f0;">[WASD]</span> Walk · <span style="color:#e2e8f0;">[SHIFT+WASD]</span> Sprint<br/>
         Teleport: <span style="color:#e2e8f0;">[1]</span> Street <span style="color:#e2e8f0;">[2]</span> Stairs <span style="color:#e2e8f0;">[3]</span> Landing<br/>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e2e8f0;">[4]</span> Concourse <span style="color:#e2e8f0;">[5]</span> UG2 <span style="color:#e2e8f0;">[6]</span> Train
       </div>
@@ -60,6 +67,7 @@ export class DebugOverlay {
     this.fpsSpan = overlay.querySelector('#debug-fps');
     this.posSpan = overlay.querySelector('#debug-pos');
     this.areaSpan = overlay.querySelector('#debug-area');
+    this.speedSpan = overlay.querySelector('#debug-speed');
   }
 
   private startLoop = (): void => {
@@ -89,6 +97,19 @@ export class DebugOverlay {
         if (this.areaSpan) {
           this.areaSpan.textContent = getAreaName(this.tempVec);
         }
+      }
+
+      // Read current movement speed & state
+      if (this.speedSpan && this.movementController) {
+        const speed = this.movementController.getCurrentSpeed();
+        const state = this.movementController.getMovementState();
+        let stateColor = '#94a3b8'; // Slate for Idle
+        if (state === 'Sprinting') {
+          stateColor = '#f43f5e'; // Bright Rose for Sprint
+        } else if (state === 'Walking') {
+          stateColor = '#38bdf8'; // Cyan for Walk
+        }
+        this.speedSpan.innerHTML = `${speed.toFixed(2)} m/s <span style="color: ${stateColor}; font-weight: 700;">[${state}]</span>`;
       }
 
       this.animId = requestAnimationFrame(update);

@@ -60,7 +60,7 @@ export class MouseLook {
 
     hint.innerHTML = `
       <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#38bdf8;"></span>
-      <span>Click canvas or drag to <strong style="color:#f8fafc;">look around</strong> · <span style="color:#cbd5e1;">[ESC]</span> unlock</span>
+      <span>Click canvas or drag to <strong style="color:#f8fafc;">look around</strong> · <span style="color:#cbd5e1;">[SHIFT]</span> sprint · <span style="color:#cbd5e1;">[ESC]</span> unlock</span>
     `;
 
     document.body.appendChild(hint);
@@ -127,7 +127,7 @@ export class MouseLook {
         this.hintElement.style.opacity = '1.0';
         this.hintElement.innerHTML = `
           <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#38bdf8;"></span>
-          <span>Click canvas or drag to <strong style="color:#f8fafc;">look around</strong> · <span style="color:#cbd5e1;">[ESC]</span> unlock</span>
+          <span>Click canvas or drag to <strong style="color:#f8fafc;">look around</strong> · <span style="color:#cbd5e1;">[SHIFT]</span> sprint · <span style="color:#cbd5e1;">[ESC]</span> unlock</span>
         `;
       }
     }

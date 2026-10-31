@@ -34,6 +34,9 @@ World.create(
     if (locomotion.config?.comfortAssist) {
       locomotion.config.comfortAssist.value = locomotionConfig.comfortAssist;
     }
+    if (locomotion.config?.enableJumping) {
+      locomotion.config.enableJumping.value = locomotionConfig.enableJumping;
+    }
 
     // Set initial spawn position
     const spawnPos = new Vector3(
@@ -43,6 +46,15 @@ World.create(
     );
     locomotion.setPlayerPosition(spawnPos);
     world.setAuthoredPlayerPosition(spawnPos);
+  }
+
+  // Enhanced locomotion: smooth acceleration, deceleration, walking (2.2 m/s) & sprint (4.0 m/s)
+  let movementController: any = undefined;
+  if (locomotion) {
+    const { setupPlayerMovement } = await import(
+      './locomotion/movement-controller.js'
+    );
+    movementController = await setupPlayerMovement(world, locomotion);
   }
 
   // Desktop mouse-look: turns the player's head and view when moving or dragging the mouse
@@ -56,7 +68,7 @@ World.create(
     const { DebugOverlay } = await import('./dev/debug-overlay.js');
     const { DevHotkeys } = await import('./dev/hotkeys.js');
 
-    new DebugOverlay(world);
+    new DebugOverlay(world, movementController);
     new DevHotkeys(world);
     console.log('[DEV] Debug overlay and teleport hotkeys (1-6) active');
   }

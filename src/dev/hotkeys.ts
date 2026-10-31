@@ -19,6 +19,11 @@ export class DevHotkeys {
         return;
       }
 
+      // Don't trigger teleport hotkeys if Shift is held (sprint modifier)
+      if (event.shiftKey) {
+        return;
+      }
+
       const hotkey = TELEPORT_HOTKEYS[event.key];
       if (!hotkey) {
         return;
